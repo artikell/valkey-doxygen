@@ -1,7 +1,10 @@
 #!/bin/bash
 
+
 rm -rf .project
 rm -rf docs
+
+git submodule update --init --recursive
 git clone --depth 1 git@github.com:artikell/valkey.git .project
 
 cp Doxyfile .project
