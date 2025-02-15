@@ -8,6 +8,7 @@ cp Doxyfile .project
 cp valkey.dox .project
 
 cd .project
+export NUM_PROC_THREADS=$(nproc)
 doxygen Doxyfile
 cd -
 
