@@ -1,5 +1,9 @@
 #!/bin/bash
 
+deploy_mode=0
+if [ "$1" = "deploy" ]; then
+    deploy_mode=1
+fi
 
 rm -rf .project
 rm -rf docs
@@ -17,4 +21,7 @@ cd -
 
 mv .project/docs ./
 
-python3 doxy-coverage.py ./docs/xml
+if [ $deploy_mode -eq 0 ]; then
+    python3 -m pip install requests
+    python3 doxy-coverage.py ./docs/xml
+fi
