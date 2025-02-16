@@ -1,0 +1,658 @@
+/**
+ * \struct streamID
+ * \brief 定义流 ID 的结构体。
+ *
+ * 该结构体用于表示流的唯一标识符，由时间戳和序列号组成。
+ */
+
+/**
+ * \var uint64_t streamID::ms
+ * \brief 以毫秒为单位的 Unix 时间。
+ *
+ * 该成员存储流 ID 对应的 Unix 时间戳，精确到毫秒。
+ */
+
+/**
+ * \var uint64_t streamID::seq
+ * \brief 序列号。
+ *
+ * 该成员存储流 ID 的序列号，用于区分同一时间戳下的不同流元素。
+ */
+
+/**
+ * \struct stream
+ * \brief 定义流数据结构。
+ *
+ * 该结构体表示一个流，包含了流的基本信息、元素存储结构、消费者组等相关信息。
+ */
+
+/**
+ * \var rax *stream::rax
+ * \brief 存储流元素的基数树。
+ *
+ * 该成员是一个指向基数树（rax）的指针，用于存储流中的元素。
+ */
+
+/**
+ * \var uint64_t stream::length
+ * \brief 流中当前元素的数量。
+ *
+ * 该成员表示当前流中包含的元素的数量。
+ */
+
+/**
+ * \var streamID stream::last_id
+ * \brief 流中最后一个元素的 ID。
+ *
+ * 如果流中还没有元素，该值为零。
+ */
+
+/**
+ * \var streamID stream::first_id
+ * \brief 流中第一个非墓碑条目的 ID。
+ *
+ * 如果流为空，该值为零。
+ */
+
+/**
+ * \var streamID stream::max_deleted_entry_id
+ * \brief 已删除条目的最大 ID。
+ *
+ * 该成员记录了流中已删除条目的最大 ID。
+ */
+
+/**
+ * \var uint64_t stream::entries_added
+ * \brief 流中添加过的元素总数。
+ *
+ * 该成员记录了流从创建以来添加过的所有元素的总数。
+ */
+
+/**
+ * \var rax *stream::cgroups
+ * \brief 消费者组字典。
+ *
+ * 该成员是一个指向基数树的指针，用于存储消费者组信息，键为消费者组名称，值为对应的 streamCG 结构体。
+ */
+
+/**
+ * \struct streamIterator
+ * \brief 定义流迭代器的结构体。
+ *
+ * 该结构体用于迭代流中的元素，包含了迭代所需的各种信息，如流指针、当前处理的条目信息、迭代方向等。
+ */
+
+/**
+ * \var stream *streamIterator::stream
+ * \brief 正在迭代的流。
+ *
+ * 该成员指向当前正在迭代的流对象。
+ */
+
+/**
+ * \var streamID streamIterator::primary_id
+ * \brief 列表包头部主条目的 ID。
+ *
+ * 表示当前列表包头部主条目的唯一标识符。
+ */
+
+/**
+ * \var uint64_t streamIterator::primary_fields_count
+ * \brief 主条目的字段数量。
+ *
+ * 记录主条目中包含的字段的数量。
+ */
+
+/**
+ * \var unsigned char *streamIterator::primary_fields_start
+ * \brief 列表包中主条目的起始位置。
+ *
+ * 指向列表包中主条目开始的位置。
+ */
+
+/**
+ * \var unsigned char *streamIterator::primary_fields_ptr
+ * \brief 下一个要输出的主字段。
+ *
+ * 指向主条目中下一个要输出的字段的位置。
+ */
+
+/**
+ * \var int streamIterator::entry_flags
+ * \brief 当前要输出条目的标志。
+ *
+ * 包含当前要输出条目的相关标志信息。
+ */
+
+/**
+ * \var int streamIterator::rev
+ * \brief 是否反向迭代。
+ *
+ * 如果为真，则表示从流的末尾向起始位置进行反向迭代。
+ */
+
+/**
+ * \var int streamIterator::skip_tombstones
+ * \brief 是否跳过墓碑条目。
+ *
+ * 如果为真，则在迭代过程中不输出墓碑条目。
+ */
+
+/**
+ * \var uint64_t streamIterator::start_key[2]
+ * \brief 作为 128 位大端整数的起始键。
+ *
+ * 定义迭代的起始键，以 128 位大端整数形式存储。
+ */
+
+/**
+ * \var uint64_t streamIterator::end_key[2]
+ * \brief 作为 128 位大端整数的结束键。
+ *
+ * 定义迭代的结束键，以 128 位大端整数形式存储。
+ */
+
+/**
+ * \var raxIterator streamIterator::ri
+ * \brief 基数树迭代器。
+ *
+ * 用于迭代存储流元素的基数树。
+ */
+
+/**
+ * \var unsigned char *streamIterator::lp
+ * \brief 当前的列表包。
+ *
+ * 指向当前正在处理的列表包。
+ */
+
+/**
+ * \var unsigned char *streamIterator::lp_ele
+ * \brief 当前列表包的游标。
+ *
+ * 表示当前在列表包中的位置。
+ */
+
+/**
+ * \var unsigned char *streamIterator::lp_flags
+ * \brief 当前条目的标志指针。
+ *
+ * 指向当前条目的标志信息所在位置。
+ */
+
+/**
+ * \var unsigned char streamIterator::field_buf[LP_INTBUF_SIZE]
+ * \brief 用于存储整数编码字段字符串的缓冲区。
+ *
+ * 当列表包中的元素为整数编码时，用于存储其字符串表示。
+ */
+
+/**
+ * \var unsigned char streamIterator::value_buf[LP_INTBUF_SIZE]
+ * \brief 用于存储整数编码值字符串的缓冲区。
+ *
+ * 当列表包中的元素为整数编码时，用于存储其值的字符串表示。
+ */
+
+/**
+ * \struct streamCG
+ * \brief 定义流消费者组的数据结构。
+ *
+ * 该结构体表示流的消费者组，包含了消费者组的基本信息、已读取条目数量、待处理条目列表以及消费者信息等。
+ */
+
+/**
+ * \var streamID streamCG::last_id
+ * \brief 该消费者组最后一次交付（未确认）的消息 ID。
+ *
+ * 对于那些仅请求更多消息的消费者，将提供大于此 ID 的消息。
+ */
+
+/**
+ * \var long long streamCG::entries_read
+ * \brief 消费者组读取的条目总数。
+ *
+ * 在理想情况下（消费者组从 0 - 0 开始，无删除操作，无 XGROUP SETID 操作等），这是消费者组读取的总条目数。
+ * 在实际情况中，该值的具体含义在 streamEstimateDistanceFromFirstEverEntry() 函数的顶部注释中有详细说明。
+ */
+
+/**
+ * \var rax *streamCG::pel
+ * \brief 待处理条目列表。
+ *
+ * 这是一个基数树，存储了所有已交付给消费者（未使用 NOACK 选项）但尚未被确认处理的消息。
+ * 基数树的键是 64 位大端格式的消息 ID，关联的值是 streamNACK 结构体。
+ */
+
+/**
+ * \var rax *streamCG::consumers
+ * \brief 消费者字典。
+ *
+ * 这是一个基数树，以消费者名称为键，关联的值是 streamConsumer 结构体，用于表示消费者的相关信息。
+ */
+
+/**
+ * \struct streamConsumer
+ * \brief 定义流消费者的数据结构。
+ *
+ * 该结构体表示流的消费者，包含了消费者的基本信息、活动时间以及待处理条目列表等。
+ */
+
+/**
+ * \var mstime_t streamConsumer::seen_time
+ * \brief 消费者最后一次尝试执行操作的时间。
+ *
+ * 记录消费者最后一次尝试进行读取或认领等操作的时间。
+ */
+
+/**
+ * \var mstime_t streamConsumer::active_time
+ * \brief 消费者最后一次活跃的时间。
+ *
+ * 记录消费者最后一次成功进行读取或认领等操作的时间。
+ */
+
+/**
+ * \var sds streamConsumer::name
+ * \brief 消费者名称。
+ *
+ * 这是消费者在消费者组协议中的标识名称，区分大小写。
+ */
+
+/**
+ * \var rax *streamConsumer::pel
+ * \brief 消费者特定的待处理条目列表。
+ *
+ * 该基数树存储了所有已交付给此消费者但尚未确认处理的消息。键为大端格式的消息 ID，值为与消费者组结构中 "pel" 引用相同的 streamNACK 结构体，即值是共享的。
+ */
+
+/**
+ * \struct streamNACK
+ * \brief 定义流未确认消息的数据结构。
+ *
+ * 该结构体用于表示流中已交付但尚未被确认处理的消息，包含了消息的交付时间、交付次数以及最后一次交付的消费者信息。
+ */
+
+/**
+ * \var mstime_t streamNACK::delivery_time
+ * \brief 消息最后一次交付的时间。
+ *
+ * 记录该消息最后一次被交付给消费者的时间。
+ */
+
+/**
+ * \var uint64_t streamNACK::delivery_count
+ * \brief 消息的交付次数。
+ *
+ * 记录该消息从交付以来总共被交付的次数。
+ */
+
+/**
+ * \var streamConsumer *streamNACK::consumer
+ * \brief 消息最后一次交付的消费者。
+ *
+ * 指向最后一次接收该消息的消费者结构体的指针。
+ */
+ 
+ /**
+ * \struct streamPropInfo
+ * \brief 定义流属性信息的结构体。
+ *
+ * 该结构体用于存储流的相关属性信息，主要包含键名和组名。
+ */
+
+/**
+ * \var robj *streamPropInfo::keyname
+ * \brief 流的键名对象指针。
+ *
+ * 指向表示流键名的对象，用于标识流。
+ */
+
+/**
+ * \var robj *streamPropInfo::groupname
+ * \brief 流所属消费者组的名称对象指针。
+ *
+ * 指向表示流所属消费者组名称的对象，用于标识消费者组。
+ */
+
+/**
+ * \fn stream *streamNew(void)
+ * \brief 创建一个新的流对象。
+ *
+ * 该函数用于初始化并返回一个新的空流对象。
+ *
+ * \return 指向新创建的流对象的指针。
+ */
+
+/**
+ * \fn void freeStream(stream *s)
+ * \brief 释放流对象占用的内存。
+ *
+ * 该函数用于释放指定流对象所占用的内存资源。
+ *
+ * \param s 指向要释放的流对象的指针。
+ */
+
+/**
+ * \fn unsigned long streamLength(const robj *subject)
+ * \brief 获取流的元素数量。
+ *
+ * 该函数返回指定流对象中包含的元素总数。
+ *
+ * \param subject 指向流对象的只读指针。
+ * \return 流中的元素数量。
+ */
+
+/**
+ * \fn size_t streamReplyWithRange(client *c, stream *s, streamID *start, streamID *end, size_t count, int rev, streamCG *group, streamConsumer *consumer, int flags, streamPropInfo *spi)
+ * \brief 向客户端回复流的指定范围元素。
+ *
+ * 该函数将流中指定范围的元素信息发送给客户端。
+ *
+ * \param c 指向客户端对象的指针。
+ * \param s 指向流对象的指针。
+ * \param start 起始流 ID 指针。
+ * \param end 结束流 ID 指针。
+ * \param count 要返回的元素数量。
+ * \param rev 是否反向迭代。
+ * \param group 消费者组指针。
+ * \param consumer 消费者指针。
+ * \param flags 操作标志。
+ * \param spi 流属性信息指针。
+ * \return 实际回复的元素数量。
+ */
+
+/**
+ * \fn void streamIteratorStart(streamIterator *si, stream *s, streamID *start, streamID *end, int rev)
+ * \brief 初始化流迭代器。
+ *
+ * 该函数用于初始化一个流迭代器，设置迭代的起始和结束位置以及迭代方向。
+ *
+ * \param si 指向流迭代器对象的指针。
+ * \param s 指向要迭代的流对象的指针。
+ * \param start 起始流 ID 指针。
+ * \param end 结束流 ID 指针。
+ * \param rev 是否反向迭代。
+ */
+
+/**
+ * \fn int streamIteratorGetID(streamIterator *si, streamID *id, int64_t *numfields)
+ * \brief 获取流迭代器当前指向元素的 ID 和字段数量。
+ *
+ * 该函数从流迭代器中获取当前指向元素的 ID 和字段数量。
+ *
+ * \param si 指向流迭代器对象的指针。
+ * \param id 用于存储元素 ID 的指针。
+ * \param numfields 用于存储元素字段数量的指针。
+ * \return 成功获取返回 1，失败返回 0。
+ */
+
+/**
+ * \fn void streamIteratorGetField(streamIterator *si, unsigned char **fieldptr, unsigned char **valueptr, int64_t *fieldlen, int64_t *valuelen)
+ * \brief 从流迭代器中获取当前字段和对应值的信息。
+ *
+ * 该函数用于从流迭代器中提取当前字段及其对应值的指针和长度信息。
+ *
+ * \param si 指向流迭代器对象的指针。
+ * \param fieldptr 用于存储字段指针的指针。
+ * \param valueptr 用于存储值指针的指针。
+ * \param fieldlen 用于存储字段长度的指针。
+ * \param valuelen 用于存储值长度的指针。
+ */
+
+/**
+ * \fn void streamIteratorRemoveEntry(streamIterator *si, streamID *current)
+ * \brief 从流迭代器中移除当前条目。
+ *
+ * 该函数用于从流迭代器所迭代的流中移除当前指向的条目。
+ *
+ * \param si 指向流迭代器对象的指针。
+ * \param current 指向当前条目的流 ID 的指针。
+ */
+
+/**
+ * \fn void streamIteratorStop(streamIterator *si)
+ * \brief 停止流迭代器。
+ *
+ * 该函数用于停止流迭代器的迭代操作，并释放相关资源。
+ *
+ * \param si 指向流迭代器对象的指针。
+ */
+
+/**
+ * \fn streamCG *streamLookupCG(stream *s, sds groupname)
+ * \brief 在流中查找指定名称的消费者组。
+ *
+ * 该函数在给定的流中查找具有指定名称的消费者组。
+ *
+ * \param s 指向流对象的指针。
+ * \param groupname 消费者组的名称。
+ * \return 指向找到的消费者组的指针，如果未找到则返回 NULL。
+ */
+
+/**
+ * \fn streamConsumer *streamLookupConsumer(streamCG *cg, sds name)
+ * \brief 在消费者组中查找指定名称的消费者。
+ *
+ * 该函数在给定的消费者组中查找具有指定名称的消费者。
+ *
+ * \param cg 指向消费者组对象的指针。
+ * \param name 消费者的名称。
+ * \return 指向找到的消费者的指针，如果未找到则返回 NULL。
+ */
+
+/**
+ * \fn streamConsumer *streamCreateConsumer(streamCG *cg, sds name, robj *key, int dbid, int flags)
+ * \brief 在消费者组中创建一个新的消费者。
+ *
+ * 该函数在给定的消费者组中创建一个具有指定名称的新消费者。
+ *
+ * \param cg 指向消费者组对象的指针。
+ * \param name 消费者的名称。
+ * \param key 相关的键对象指针。
+ * \param dbid 数据库 ID。
+ * \param flags 操作标志。
+ * \return 指向新创建的消费者的指针。
+ */
+
+/**
+ * \fn streamCG *streamCreateCG(stream *s, char *name, size_t namelen, streamID *id, long long entries_read)
+ * \brief 在流中创建一个新的消费者组。
+ *
+ * 该函数在给定的流中创建一个具有指定名称和初始 ID 的新消费者组。
+ *
+ * \param s 指向流对象的指针。
+ * \param name 消费者组的名称。
+ * \param namelen 消费者组名称的长度。
+ * \param id 消费者组的初始流 ID 指针。
+ * \param entries_read 消费者组已读取的条目数量。
+ * \return 指向新创建的消费者组的指针。
+ */
+
+/**
+ * \fn streamNACK *streamCreateNACK(streamConsumer *consumer)
+ * \brief 创建一个新的未确认消息对象。
+ *
+ * 该函数为指定的消费者创建一个新的未确认消息对象。
+ *
+ * \param consumer 指向消费者对象的指针。
+ * \return 指向新创建的未确认消息对象的指针。
+ */
+
+/**
+ * \fn void streamDecodeID(void *buf, streamID *id)
+ * \brief 从缓冲区中解码流 ID。
+ *
+ * 该函数从给定的缓冲区中解码出流 ID。
+ *
+ * \param buf 包含流 ID 编码数据的缓冲区指针。
+ * \param id 用于存储解码后流 ID 的指针。
+ */
+
+/**
+ * \fn int streamCompareID(streamID *a, streamID *b)
+ * \brief 比较两个流 ID 的大小。
+ *
+ * 该函数比较两个流 ID 的大小。
+ *
+ * \param a 第一个流 ID 的指针。
+ * \param b 第二个流 ID 的指针。
+ * \return 如果 a < b 返回负数；如果 a == b 返回 0；如果 a > b 返回正数。
+ */
+
+/**
+ * \fn void streamFreeNACK(streamNACK *na)
+ * \brief 释放未确认消息对象占用的内存。
+ *
+ * 该函数用于释放指定未确认消息对象所占用的内存资源。
+ *
+ * \param na 指向要释放的未确认消息对象的指针。
+ */
+
+/**
+ * \fn int streamIncrID(streamID *id)
+ * \brief 增加流 ID 的值。
+ *
+ * 该函数将指定流 ID 的值增加。
+ *
+ * \param id 指向流 ID 对象的指针。
+ * \return 操作成功返回 1，失败返回 0。
+ */
+
+/**
+ * \fn int streamDecrID(streamID *id)
+ * \brief 减少流 ID 的值。
+ *
+ * 该函数将指定流 ID 的值减少。
+ *
+ * \param id 指向流 ID 对象的指针。
+ * \return 操作成功返回 1，失败返回 0。
+ */
+
+/**
+ * \fn void streamPropagateConsumerCreation(client *c, robj *key, robj *groupname, sds consumername)
+ * \brief 传播消费者创建操作。
+ *
+ * 该函数用于将消费者创建操作传播到相关的环境中，确保操作的一致性。
+ *
+ * \param c 指向客户端对象的指针。
+ * \param key 指向流键对象的指针。
+ * \param groupname 指向消费者组名称对象的指针。
+ * \param consumername 消费者名称。
+ */
+
+/**
+ * \fn robj *streamDup(robj *o)
+ * \brief 复制流对象。
+ *
+ * 该函数用于复制一个流对象，返回一个新的流对象指针。
+ *
+ * \param o 指向要复制的流对象的指针。
+ * \return 指向新复制的流对象的指针。
+ */
+
+/**
+ * \fn int streamValidateListpackIntegrity(unsigned char *lp, size_t size, int deep)
+ * \brief 验证列表包的完整性。
+ *
+ * 该函数用于验证列表包的完整性，可以选择进行深度验证。
+ *
+ * \param lp 指向列表包的指针。
+ * \param size 列表包的大小。
+ * \param deep 是否进行深度验证。
+ * \return 验证成功返回 1，失败返回 0。
+ */
+
+/**
+ * \fn int streamParseID(const robj *o, streamID *id)
+ * \brief 解析流 ID。
+ *
+ * 该函数用于从对象中解析出流 ID。
+ *
+ * \param o 指向包含流 ID 信息的对象的指针。
+ * \param id 用于存储解析后流 ID 的指针。
+ * \return 解析成功返回 1，失败返回 0。
+ */
+
+/**
+ * \fn robj *createObjectFromStreamID(streamID *id)
+ * \brief 根据流 ID 创建对象。
+ *
+ * 该函数根据给定的流 ID 创建一个新的对象。
+ *
+ * \param id 指向流 ID 对象的指针。
+ * \return 指向新创建对象的指针。
+ */
+
+/**
+ * \fn int streamAppendItem(stream *s, robj **argv, int64_t numfields, streamID *added_id, streamID *use_id, int seq_given)
+ * \brief 向流中添加元素。
+ *
+ * 该函数用于向流中添加一个元素，并返回操作结果。
+ *
+ * \param s 指向流对象的指针。
+ * \param argv 指向元素参数数组的指针。
+ * \param numfields 元素的字段数量。
+ * \param added_id 用于存储添加元素的流 ID 的指针。
+ * \param use_id 用于指定使用的流 ID 的指针。
+ * \param seq_given 是否指定了序列号。
+ * \return 操作成功返回 1，失败返回 0。
+ */
+
+/**
+ * \fn int streamDeleteItem(stream *s, streamID *id)
+ * \brief 从流中删除元素。
+ *
+ * 该函数用于从流中删除指定 ID 的元素。
+ *
+ * \param s 指向流对象的指针。
+ * \param id 指向要删除元素的流 ID 的指针。
+ * \return 操作成功返回 1，失败返回 0。
+ */
+
+/**
+ * \fn void streamGetEdgeID(stream *s, int first, int skip_tombstones, streamID *edge_id)
+ * \brief 获取流的边界 ID。
+ *
+ * 该函数用于获取流的第一个或最后一个元素的 ID，可以选择跳过墓碑条目。
+ *
+ * \param s 指向流对象的指针。
+ * \param first 是否获取第一个元素的 ID。
+ * \param skip_tombstones 是否跳过墓碑条目。
+ * \param edge_id 用于存储边界 ID 的指针。
+ */
+
+/**
+ * \fn long long streamEstimateDistanceFromFirstEverEntry(stream *s, streamID *id)
+ * \brief 估计从第一个条目到指定 ID 的距离。
+ *
+ * 该函数用于估计从流的第一个条目到指定 ID 的元素的距离。
+ *
+ * \param s 指向流对象的指针。
+ * \param id 指向指定流 ID 的指针。
+ * \return 估计的距离。
+ */
+
+/**
+ * \fn int64_t streamTrimByLength(stream *s, long long maxlen, int approx)
+ * \brief 根据长度修剪流。
+ *
+ * 该函数用于根据指定的最大长度修剪流，返回实际修剪的元素数量。
+ *
+ * \param s 指向流对象的指针。
+ * \param maxlen 最大长度。
+ * \param approx 是否进行近似修剪。
+ * \return 实际修剪的元素数量。
+ */
+
+/**
+ * \fn int64_t streamTrimByID(stream *s, streamID minid, int approx)
+ * \brief 根据 ID 修剪流。
+ *
+ * 该函数用于根据指定的最小 ID 修剪流，返回实际修剪的元素数量。
+ *
+ * \param s 指向流对象的指针。
+ * \param minid 最小流 ID。
+ * \param approx 是否进行近似修剪。
+ * \return 实际修剪的元素数量。
+ */

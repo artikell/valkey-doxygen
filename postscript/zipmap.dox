@@ -1,0 +1,35 @@
+/**
+ * \fn unsigned char *zipmapRewind(unsigned char *zm)
+ * \brief 将迭代器重置到压缩映射的起始位置。
+ *
+ * 该函数用于将压缩映射（zipmap）的迭代器重置到起始位置，以便重新开始遍历。
+ *
+ * \param zm 指向压缩映射的指针。
+ * \return 指向压缩映射起始位置的指针。
+ */
+
+/**
+ * \fn unsigned char *zipmapNext(unsigned char *zm, unsigned char **key, unsigned int *klen, unsigned char **value, unsigned int *vlen)
+ * \brief 获取压缩映射中的下一个键值对。
+ *
+ * 该函数用于遍历压缩映射，获取下一个键值对的信息。
+ *
+ * \param zm 指向压缩映射当前位置的指针。
+ * \param key 用于存储键的指针的指针。
+ * \param klen 用于存储键长度的指针。
+ * \param value 用于存储值的指针的指针。
+ * \param vlen 用于存储值长度的指针。
+ * \return 指向下一个键值对的指针，如果没有下一个键值对则返回 NULL。
+ */
+
+/**
+ * \fn int zipmapValidateIntegrity(unsigned char *zm, size_t size, int deep)
+ * \brief 验证压缩映射的完整性。
+ *
+ * 该函数检查压缩映射的结构是否正确，可选择进行深度检查。
+ *
+ * \param zm 指向压缩映射的指针。
+ * \param size 压缩映射的预期大小。
+ * \param deep 是否进行深度检查。
+ * \return 验证成功返回 1，失败返回 0。
+ */

@@ -1,0 +1,282 @@
+/**
+ * \struct ziplistEntry
+ * \brief 定义压缩列表项的结构体。
+ *
+ * 此结构体用于表示压缩列表中的一个条目，它可以存储字符串或整数类型的值。
+ */
+/**
+ * \var unsigned char *ziplistEntry::sval
+ * \brief 存储字符串值的指针。
+ *
+ * 当使用字符串存储时，该指针指向字符串的内存地址，同时通过 `slen` 来确定字符串的长度。
+ */
+
+/**
+ * \var unsigned int ziplistEntry::slen
+ * \brief 字符串值的长度。
+ *
+ * 当存储的是字符串时，该成员表示 `sval` 所指向字符串的长度。
+ */
+
+/**
+ * \var long long ziplistEntry::lval
+ * \brief 存储整数值。
+ *
+ * 当存储整数时，`sval` 会被置为 NULL，整数值将存储在 `lval` 中。
+ */
+
+/**
+ * \fn unsigned char *ziplistNew(void)
+ * \brief 创建一个新的压缩列表。
+ *
+ * 该函数用于初始化并返回一个新的空压缩列表。
+ *
+ * \return 指向新创建的压缩列表的指针。
+ */
+
+/**
+ * \fn unsigned char *ziplistMerge(unsigned char **first, unsigned char **second)
+ * \brief 合并两个压缩列表。
+ *
+ * 该函数将两个压缩列表合并为一个新的压缩列表。
+ *
+ * \param first 指向第一个压缩列表指针的指针。
+ * \param second 指向第二个压缩列表指针的指针。
+ * \return 指向合并后压缩列表的指针。
+ */
+
+/**
+ * \fn unsigned char *ziplistPush(unsigned char *zl, unsigned char *s, unsigned int slen, int where)
+ * \brief 向压缩列表中添加一个新元素。
+ *
+ * 该函数将一个新元素添加到压缩列表的指定位置。
+ *
+ * \param zl 指向压缩列表的指针。
+ * \param s 要添加的元素的字符串值。
+ * \param slen 要添加的元素的字符串长度。
+ * \param where 元素添加的位置，可以是头部或尾部。
+ * \return 指向更新后的压缩列表的指针。
+ */
+
+/**
+ * \fn unsigned char *ziplistIndex(unsigned char *zl, int index)
+ * \brief 获取压缩列表中指定索引位置的元素。
+ *
+ * 该函数返回压缩列表中指定索引位置的元素的指针。
+ *
+ * \param zl 指向压缩列表的指针。
+ * \param index 要获取的元素的索引。
+ * \return 指向指定索引位置元素的指针，如果索引无效则返回 NULL。
+ */
+
+/**
+ * \fn unsigned char *ziplistNext(unsigned char *zl, unsigned char *p)
+ * \brief 获取压缩列表中指定元素的下一个元素。
+ *
+ * 该函数返回压缩列表中指定元素的下一个元素的指针。
+ *
+ * \param zl 指向压缩列表的指针。
+ * \param p 指向当前元素的指针。
+ * \return 指向下一个元素的指针，如果没有下一个元素则返回 NULL。
+ */
+
+/**
+ * \fn unsigned char *ziplistPrev(unsigned char *zl, unsigned char *p)
+ * \brief 获取压缩列表中指定元素的前一个元素。
+ *
+ * 该函数返回压缩列表中指定元素的前一个元素的指针。
+ *
+ * \param zl 指向压缩列表的指针。
+ * \param p 指向当前元素的指针。
+ * \return 指向前一个元素的指针，如果没有前一个元素则返回 NULL。
+ */
+
+/**
+ * \fn unsigned int ziplistGet(unsigned char *p, unsigned char **sval, unsigned int *slen, long long *lval)
+ * \brief 获取压缩列表中指定元素的值。
+ *
+ * 该函数从指定元素中提取字符串或整数值。
+ *
+ * \param p 指向要获取值的元素的指针。
+ * \param sval 用于存储字符串值的指针的指针。
+ * \param slen 用于存储字符串长度的指针。
+ * \param lval 用于存储整数值的指针。
+ * \return 如果元素包含字符串则返回 1，如果包含整数则返回 0。
+ */
+
+/**
+ * \fn unsigned char *ziplistInsert(unsigned char *zl, unsigned char *p, unsigned char *s, unsigned int slen)
+ * \brief 在压缩列表中指定位置插入一个新元素。
+ *
+ * 该函数在压缩列表的指定位置插入一个新元素。
+ *
+ * \param zl 指向压缩列表的指针。
+ * \param p 指向插入位置的指针。
+ * \param s 要插入的元素的字符串值。
+ * \param slen 要插入的元素的字符串长度。
+ * \return 指向更新后的压缩列表的指针。
+ */
+
+/**
+ * \fn unsigned char *ziplistDelete(unsigned char *zl, unsigned char **p)
+ * \brief 从压缩列表中删除指定元素。
+ *
+ * 该函数从压缩列表中删除指定元素。
+ *
+ * \param zl 指向压缩列表的指针。
+ * \param p 指向要删除元素的指针的指针。
+ * \return 指向更新后的压缩列表的指针。
+ */
+
+/**
+ * \fn unsigned char *ziplistDeleteRange(unsigned char *zl, int index, unsigned int num)
+ * \brief 从压缩列表中删除指定范围的元素。
+ *
+ * 该函数从压缩列表中删除从指定索引开始的指定数量的元素。
+ *
+ * \param zl 指向压缩列表的指针。
+ * \param index 要删除的元素的起始索引。
+ * \param num 要删除的元素的数量。
+ * \return 指向更新后的压缩列表的指针。
+ */
+
+/**
+ * \fn unsigned char *ziplistReplace(unsigned char *zl, unsigned char *p, unsigned char *s, unsigned int slen)
+ * \brief 替换压缩列表中指定元素的值。
+ *
+ * 该函数用新的字符串值替换压缩列表中指定元素的值。
+ *
+ * \param zl 指向压缩列表的指针。
+ * \param p 指向要替换的元素的指针。
+ * \param s 新的字符串值。
+ * \param slen 新的字符串长度。
+ * \return 指向更新后的压缩列表的指针。
+ */
+
+/**
+ * \fn unsigned int ziplistCompare(unsigned char *p, unsigned char *s, unsigned int slen)
+ * \brief 比较压缩列表中指定元素与给定字符串的内容。
+ *
+ * 该函数比较压缩列表中指定元素的内容与给定字符串是否相同。
+ *
+ * \param p 指向要比较的元素的指针。
+ * \param s 要比较的字符串。
+ * \param slen 要比较的字符串的长度。
+ * \return 如果内容相同则返回 1，否则返回 0。
+ */
+/**
+ * \fn unsigned char *ziplistFind(unsigned char *zl, unsigned char *p, unsigned char *vstr, unsigned int vlen, unsigned int skip)
+ * \brief 在压缩列表中查找指定值。
+ *
+ * 该函数从指定位置开始，在压缩列表中查找与给定字符串值匹配的元素。
+ *
+ * \param zl 指向压缩列表的指针。
+ * \param p 查找的起始位置指针。
+ * \param vstr 要查找的字符串值。
+ * \param vlen 要查找的字符串长度。
+ * \param skip 查找时跳过的元素数量。
+ * \return 指向匹配元素的指针，如果未找到则返回 NULL。
+ */
+
+/**
+ * \fn unsigned int ziplistLen(unsigned char *zl)
+ * \brief 获取压缩列表的元素数量。
+ *
+ * 该函数返回压缩列表中包含的元素总数。
+ *
+ * \param zl 指向压缩列表的指针。
+ * \return 压缩列表中的元素数量。
+ */
+
+/**
+ * \fn size_t ziplistBlobLen(unsigned char *zl)
+ * \brief 获取压缩列表的总字节长度。
+ *
+ * 该函数返回压缩列表占用的总字节数。
+ *
+ * \param zl 指向压缩列表的指针。
+ * \return 压缩列表的总字节长度。
+ */
+
+/**
+ * \fn void ziplistRepr(unsigned char *zl)
+ * \brief 打印压缩列表的详细信息。
+ *
+ * 该函数用于调试，会输出压缩列表的详细内容和结构信息。
+ *
+ * \param zl 指向压缩列表的指针。
+ */
+
+/**
+ * \typedef ziplistValidateEntryCB
+ * \brief 压缩列表条目验证回调函数类型。
+ *
+ * 该回调函数用于在验证压缩列表完整性时对每个条目进行额外检查。
+ *
+ * \param p 指向当前条目的指针。
+ * \param head_count 已处理的头部条目数量。
+ * \param userdata 用户自定义数据指针。
+ * \return 验证成功返回非零值，失败返回 0。
+ */
+
+/**
+ * \fn int ziplistValidateIntegrity(unsigned char *zl, size_t size, int deep, ziplistValidateEntryCB entry_cb, void *cb_userdata)
+ * \brief 验证压缩列表的完整性。
+ *
+ * 该函数检查压缩列表的结构是否正确，可选择进行深度检查，并可使用回调函数对每个条目进行额外验证。
+ *
+ * \param zl 指向压缩列表的指针。
+ * \param size 压缩列表的预期大小。
+ * \param deep 是否进行深度检查。
+ * \param entry_cb 条目验证回调函数。
+ * \param cb_userdata 传递给回调函数的用户自定义数据。
+ * \return 验证成功返回 1，失败返回 0。
+ */
+
+/**
+ * \fn void ziplistRandomPair(unsigned char *zl, unsigned long total_count, ziplistEntry *key, ziplistEntry *val)
+ * \brief 从压缩列表中随机选取一对键值。
+ *
+ * 该函数从压缩列表中随机选择一个键值对，并将其存储在提供的结构体中。
+ *
+ * \param zl 指向压缩列表的指针。
+ * \param total_count 压缩列表的总元素数量。
+ * \param key 用于存储随机键的 ziplistEntry 结构体指针。
+ * \param val 用于存储随机值的 ziplistEntry 结构体指针。
+ */
+
+/**
+ * \fn void ziplistRandomPairs(unsigned char *zl, unsigned int count, ziplistEntry *keys, ziplistEntry *vals)
+ * \brief 从压缩列表中随机选取多个键值对。
+ *
+ * 该函数从压缩列表中随机选择指定数量的键值对，并将它们存储在提供的数组中。
+ *
+ * \param zl 指向压缩列表的指针。
+ * \param count 要选取的键值对数量。
+ * \param keys 用于存储随机键的 ziplistEntry 结构体数组指针。
+ * \param vals 用于存储随机值的 ziplistEntry 结构体数组指针。
+ */
+
+/**
+ * \fn unsigned int ziplistRandomPairsUnique(unsigned char *zl, unsigned int count, ziplistEntry *keys, ziplistEntry *vals)
+ * \brief 从压缩列表中随机选取多个唯一的键值对。
+ *
+ * 该函数从压缩列表中随机选择指定数量的唯一键值对，并将它们存储在提供的数组中。
+ *
+ * \param zl 指向压缩列表的指针。
+ * \param count 要选取的键值对数量。
+ * \param keys 用于存储随机键的 ziplistEntry 结构体数组指针。
+ * \param vals 用于存储随机值的 ziplistEntry 结构体数组指针。
+ * \return 实际选取的唯一键值对数量。
+ */
+
+/**
+ * \fn int ziplistSafeToAdd(unsigned char *zl, size_t add)
+ * \brief 检查压缩列表是否有足够空间添加指定大小的数据。
+ *
+ * 该函数判断压缩列表是否有足够的空间来添加指定字节数的数据。
+ *
+ * \param zl 指向压缩列表的指针。
+ * \param add 要添加的数据大小。
+ * \return 如果有足够空间返回 1，否则返回 0。
+ */
