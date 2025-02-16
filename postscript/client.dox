@@ -1,0 +1,13 @@
+/*!
+\struct client
+\brief A test class.
+
+A more detailed class description. 
+\sa no_link, \ref struct_client
+
+\var client::id
+\brief A test variable.
+
+A more detailed variable description.
+
+*/

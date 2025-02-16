@@ -11,7 +11,7 @@
 valkey-doxygen/
 ├── Doxyfile              # Doxygen 配置文件
 ├── generate.sh           # 文档生成脚本
-├── valkey.dox            # Valkey 的高层次文档
+├── postscript            # Valkey 的高层次文档
 ├── docs/                 # 生成的文档输出目录
 └── README.md             # 项目说明文件
 ```
@@ -19,7 +19,7 @@ valkey-doxygen/
 ## 功能特性
 
 - **Doxygen 支持**：通过 Doxygen 生成 Valkey 代码的 HTML 文档。
-- **自定义文档**：支持在 `valkey.dox` 文件中添加高层次文档和注释。
+- **自定义文档**：支持在 `postscript` 目录中添加高层次文档和注释。
 - **一键生成**：提供 `generate.sh` 脚本，一键生成文档。
 
 ## 快速开始
@@ -54,7 +54,7 @@ cd valkey-doxygen
 
 ### 4. 添加自定义文档
 
-在 `valkey.dox` 文件中添加高层次文档和注释。例如：
+在 `postscript` 文件中添加高层次文档和注释。例如：
 
 ```markdown
 /**

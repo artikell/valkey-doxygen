@@ -1,0 +1,19 @@
+/*!
+\struct aeFileEvent
+\brief 定义文件事件结构体，用于表示文件描述符上的事件。
+该结构体包含了文件描述符上的事件掩码、读写事件处理函数以及客户端数据指针。
+它用于在事件循环中跟踪和处理文件描述符上的读写事件。
+
+\var aeFileEvent::mask
+\brief 事件掩码，用于表示文件描述符上的事件类型。
+可以是 AE_READABLE 或 AE_WRITABLE 或两者的组合。
+
+\var aeFileEvent::rfileProc
+\brief 读事件处理函数，当文件描述符可读时调用。
+
+\var aeFileEvent::wfileProc
+\brief 写事件处理函数，当文件描述符可写时调用。
+
+\var aeFileEvent::clientData
+\brief 客户端数据指针，用于传递额外的信息给事件处理函数。
+*/

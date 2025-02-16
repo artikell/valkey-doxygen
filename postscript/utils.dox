@@ -1,0 +1,13 @@
+/*!
+\fn int d2string(char *buf, size_t len, double value)
+\brief 将 long double 转换为字符串
+该函数根据指定的模式将 long double 类型的值转换为字符串，并存储在提供的缓冲区中。
+支持处理无穷大、NaN 值，以及不同的转换模式，如自动模式、十六进制模式和人类可读模式。
+
+\param buf 用于存储转换后字符串的缓冲区。
+\param len 缓冲区的大小。
+\param value 要转换的 long double 类型的值。
+\param mode 转换模式，取值为 LD_STR_AUTO、LD_STR_HEX 或 LD_STR_HUMAN。
+\return 转换后字符串的长度，如果发生错误则返回 0。
+
+*/
