@@ -1,0 +1,74 @@
+/**
+ * \fn void bioInit(void)
+ * \brief 初始化后台 I/O 系统。
+ *
+ * 该函数用于启动后台 I/O 线程，为后续的后台任务处理做准备。
+ */
+
+/**
+ * \fn unsigned long bioPendingJobsOfType(int type)
+ * \brief 获取指定类型的待处理后台任务数量。
+ *
+ * \param type 后台任务的类型，对应枚举中的值。
+ * \return 指定类型的待处理后台任务的数量。
+ */
+
+/**
+ * \fn void bioDrainWorker(int job_type)
+ * \brief 排空指定类型的后台任务队列。
+ *
+ * 该函数会同步处理指定类型的所有待处理后台任务，直到队列为空。
+ *
+ * \param job_type 要排空的后台任务类型。
+ */
+
+/**
+ * \fn void bioKillThreads(void)
+ * \brief 终止所有后台 I/O 线程。
+ *
+ * 该函数会停止并清理所有正在运行的后台 I/O 线程，释放相关资源。
+ */
+
+/**
+ * \fn void bioCreateCloseJob(int fd, int need_fsync, int need_reclaim_cache)
+ * \brief 创建一个关闭文件的后台任务。
+ *
+ * 该函数会将关闭文件的操作放入后台任务队列，可选择是否先进行 fsync 操作以及是否回收缓存。
+ *
+ * \param fd 要关闭的文件描述符。
+ * \param need_fsync 是否需要先进行 fsync 操作。
+ * \param need_reclaim_cache 是否需要回收缓存。
+ */
+
+/**
+ * \fn void bioCreateCloseAofJob(int fd, long long offset, int need_reclaim_cache)
+ * \brief 创建一个关闭 AOF 文件的后台任务。
+ *
+ * 该函数会将关闭 AOF 文件的操作放入后台任务队列，可指定偏移量并选择是否回收缓存。
+ *
+ * \param fd 要关闭的 AOF 文件描述符。
+ * \param offset 文件偏移量。
+ * \param need_reclaim_cache 是否需要回收缓存。
+ */
+
+/**
+ * \fn void bioCreateFsyncJob(int fd, long long offset, int need_reclaim_cache)
+ * \brief 创建一个文件同步的后台任务。
+ *
+ * 该函数会将文件同步操作放入后台任务队列，可指定偏移量并选择是否回收缓存。
+ *
+ * \param fd 要进行同步操作的文件描述符。
+ * \param offset 文件偏移量。
+ * \param need_reclaim_cache 是否需要回收缓存。
+ */
+
+/**
+ * \fn void bioCreateLazyFreeJob(lazy_free_fn free_fn, int arg_count, ...)
+ * \brief 创建一个延迟释放资源的后台任务。
+ *
+ * 该函数会将延迟释放资源的操作放入后台任务队列，可传入自定义的释放函数和参数。
+ *
+ * \param free_fn 自定义的释放函数指针。
+ * \param arg_count 释放函数的参数数量。
+ * \param ... 释放函数的可变参数。
+ */
