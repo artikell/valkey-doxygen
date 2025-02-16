@@ -1,8 +1,9 @@
 # Valkey Doxygen 项目
 
-本项目用于为 [Valkey](https://github.com/valkey-io/valkey) 代码生成 Doxygen 文档。通过 Doxygen，可以自动生成代码的 HTML 文档，便于开发者阅读和理解代码结构。
+本项目用于为 [Valkey](https://github.com/valkey-io/valkey) 代码生成 Doxygen 文档。通过 Doxygen，可以自动生成代码的 HTML 文档，便于开发者阅读和理解代码结构。文档部署在[Netlify](https://valkey-doxygen.netlify.app/) 上。
 
 ![Coverage Badge](coverage.svg)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/83126ba3-2c1e-44da-bfd7-29e71a743453/deploy-status)](https://app.netlify.com/sites/valkey-doxygen/deploys)
 
 ## 项目结构
 
