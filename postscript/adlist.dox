@@ -1,0 +1,328 @@
+/**
+ * \struct listNode
+ * \brief 定义链表节点的数据结构。
+ *
+ * 该结构体用于表示链表中的一个节点，包含指向前一个节点和后一个节点的指针，以及节点存储的值。
+ */
+
+/**
+ * \var struct listNode *listNode::prev
+ * \brief 指向前一个链表节点的指针。
+ *
+ * 该指针指向当前节点在链表中的前一个节点，如果当前节点是链表的头节点，则该指针为 NULL。
+ */
+
+/**
+ * \var struct listNode *listNode::next
+ * \brief 指向后一个链表节点的指针。
+ *
+ * 该指针指向当前节点在链表中的后一个节点，如果当前节点是链表的尾节点，则该指针为 NULL。
+ */
+
+/**
+ * \var void *listNode::value
+ * \brief 节点存储的值。
+ *
+ * 该指针指向节点所存储的数据，由于使用了 `void *` 类型，因此可以存储任意类型的数据。
+ */
+
+/**
+ * \struct listIter
+ * \brief 定义链表迭代器的数据结构。
+ *
+ * 该结构体用于遍历链表，包含指向下一个节点的指针和迭代方向。
+ */
+
+/**
+ * \var listNode *listIter::next
+ * \brief 指向下一个要访问的链表节点的指针。
+ *
+ * 该指针指向迭代过程中的下一个节点，用于遍历链表。
+ */
+
+/**
+ * \var int listIter::direction
+ * \brief 迭代方向。
+ *
+ * 表示迭代的方向，具体含义取决于实现，例如可以用不同的值表示正向或反向迭代。
+ */
+
+/**
+ * \struct list
+ * \brief 定义链表的数据结构。
+ *
+ * 该结构体表示一个双向链表，包含链表的头节点、尾节点、复制函数、释放函数、匹配函数和链表长度。
+ */
+
+/**
+ * \var listNode *list::head
+ * \brief 指向链表头节点的指针。
+ *
+ * 该指针指向链表的第一个节点，如果链表为空，则为 NULL。
+ */
+
+/**
+ * \var listNode *list::tail
+ * \brief 指向链表尾节点的指针。
+ *
+ * 该指针指向链表的最后一个节点，如果链表为空，则为 NULL。
+ */
+
+/**
+ * \var void *(*list::dup)(void *ptr)
+ * \brief 复制节点值的函数指针。
+ *
+ * 该函数指针指向一个用于复制节点值的函数，参数为要复制的值的指针，返回复制后的值的指针。
+ */
+
+/**
+ * \var void (*list::free)(void *ptr)
+ * \brief 释放节点值的函数指针。
+ *
+ * 该函数指针指向一个用于释放节点值的函数，参数为要释放的值的指针。
+ */
+
+/**
+ * \var int (*list::match)(void *ptr, void *key)
+ * \brief 匹配节点值的函数指针。
+ *
+ * 该函数指针指向一个用于匹配节点值的函数，参数为节点值的指针和要匹配的键的指针，返回匹配结果（通常为布尔值）。
+ */
+
+/**
+ * \var unsigned long list::len
+ * \brief 链表的长度。
+ *
+ * 表示链表中节点的数量。
+ */
+
+/**
+ * \fn list *listCreate(void)
+ * \brief 创建一个新的链表。
+ *
+ * 该函数用于初始化并返回一个新的空链表对象。
+ *
+ * \return 指向新创建的链表对象的指针，如果内存分配失败则返回 NULL。
+ */
+
+/**
+ * \fn void listRelease(list *list)
+ * \brief 释放链表及其所有节点占用的内存。
+ *
+ * 该函数用于释放指定链表对象及其包含的所有节点所占用的内存资源。
+ *
+ * \param list 指向要释放的链表对象的指针。
+ */
+
+/**
+ * \fn void listReleaseVoid(void *list)
+ * \brief 以通用指针形式释放链表。
+ *
+ * 该函数用于以 `void *` 类型的指针形式释放链表对象，通常用于回调函数。
+ *
+ * \param list 指向要释放的链表对象的通用指针。
+ */
+
+/**
+ * \fn void listEmpty(list *list)
+ * \brief 清空链表中的所有节点。
+ *
+ * 该函数用于移除链表中的所有节点，但保留链表对象本身。
+ *
+ * \param list 指向要清空的链表对象的指针。
+ */
+
+/**
+ * \fn list *listAddNodeHead(list *list, void *value)
+ * \brief 在链表头部添加一个新节点。
+ *
+ * 该函数用于在指定链表的头部插入一个新节点，存储指定的值。
+ *
+ * \param list 指向链表对象的指针。
+ * \param value 要存储在新节点中的值的指针。
+ * \return 指向更新后的链表对象的指针，如果内存分配失败则返回 NULL。
+ */
+
+/**
+ * \fn list *listAddNodeTail(list *list, void *value)
+ * \brief 在链表尾部添加一个新节点。
+ *
+ * 该函数用于在指定链表的尾部插入一个新节点，存储指定的值。
+ *
+ * \param list 指向链表对象的指针。
+ * \param value 要存储在新节点中的值的指针。
+ * \return 指向更新后的链表对象的指针，如果内存分配失败则返回 NULL。
+ */
+
+/**
+ * \fn list *listInsertNode(list *list, listNode *old_node, void *value, int after)
+ * \brief 在指定节点前后插入一个新节点。
+ *
+ * 该函数用于在指定链表的指定节点之前或之后插入一个新节点，存储指定的值。
+ *
+ * \param list 指向链表对象的指针。
+ * \param old_node 指向参考节点的指针。
+ * \param value 要存储在新节点中的值的指针。
+ * \param after 插入位置标志，非零表示在参考节点之后插入，零表示在之前插入。
+ * \return 指向更新后的链表对象的指针，如果内存分配失败则返回 NULL。
+ */
+
+/**
+ * \fn void listDelNode(list *list, listNode *node)
+ * \brief 从链表中删除指定节点。
+ *
+ * 该函数用于从指定链表中移除指定的节点，并释放该节点占用的内存。
+ *
+ * \param list 指向链表对象的指针。
+ * \param node 指向要删除的节点的指针。
+ */
+
+/**
+ * \fn listIter *listGetIterator(list *list, int direction)
+ * \brief 获取链表的迭代器。
+ *
+ * 该函数用于创建并返回一个用于遍历指定链表的迭代器对象。
+ *
+ * \param list 指向链表对象的指针。
+ * \param direction 迭代方向，具体含义取决于实现。
+ * \return 指向新创建的迭代器对象的指针，如果内存分配失败则返回 NULL。
+ */
+
+/**
+ * \fn listNode *listNext(listIter *iter)
+ * \brief 获取迭代器的下一个节点。
+ *
+ * 该函数用于从迭代器中获取下一个要访问的节点，并将迭代器移动到下一个位置。
+ *
+ * \param iter 指向迭代器对象的指针。
+ * \return 指向下一个节点的指针，如果没有更多节点则返回 NULL。
+ */
+
+/**
+ * \fn void listReleaseIterator(listIter *iter)
+ * \brief 释放链表迭代器占用的内存。
+ *
+ * 该函数用于释放指定迭代器对象所占用的内存资源。
+ *
+ * \param iter 指向要释放的迭代器对象的指针。
+ */
+
+/**
+ * \fn list *listDup(list *orig)
+ * \brief 复制一个链表。
+ *
+ * 该函数用于复制指定的链表，返回一个新的链表对象，新链表包含原链表的所有节点值。
+ *
+ * \param orig 指向要复制的原链表对象的指针。
+ * \return 指向新复制的链表对象的指针，如果内存分配失败则返回 NULL。
+ */
+
+/**
+ * \fn listNode *listSearchKey(list *list, void *key)
+ * \brief 在链表中搜索指定键的节点。
+ *
+ * 该函数用于在指定链表中查找存储指定键值的节点。
+ *
+ * \param list 指向链表对象的指针。
+ * \param key 要搜索的键值的指针。
+ * \return 指向找到的节点的指针，如果未找到则返回 NULL。
+ */
+
+/**
+ * \fn listNode *listIndex(list *list, long index)
+ * \brief 根据索引获取链表中的节点。
+ *
+ * 该函数用于获取指定链表中指定索引位置的节点。
+ *
+ * \param list 指向链表对象的指针。
+ * \param index 节点的索引，正数表示从头部开始计数，负数表示从尾部开始计数。
+ * \return 指向找到的节点的指针，如果索引超出范围则返回 NULL。
+ */
+
+/**
+ * \fn void listRewind(list *list, listIter *li)
+ * \brief 将迭代器重置到链表头部。
+ *
+ * 该函数用于将指定的迭代器重置到指定链表的头部，以便从头开始遍历链表。
+ *
+ * \param list 指向链表对象的指针。
+ * \param li 指向迭代器对象的指针。
+ */
+
+/**
+ * \fn void listRewindTail(list *list, listIter *li)
+ * \brief 将迭代器重置到链表尾部。
+ *
+ * 该函数用于将指定的迭代器重置到指定链表的尾部，以便从尾部开始遍历链表。
+ *
+ * \param list 指向链表对象的指针。
+ * \param li 指向迭代器对象的指针。
+ */
+
+/**
+ * \fn void listRotateTailToHead(list *list)
+ * \brief 将链表的尾节点移动到头部。
+ *
+ * 该函数用于将指定链表的尾节点移动到链表的头部，实现链表的旋转操作。
+ *
+ * \param list 指向链表对象的指针。
+ */
+
+/**
+ * \fn void listRotateHeadToTail(list *list)
+ * \brief 将链表的头节点移动到尾部。
+ *
+ * 该函数用于将指定链表的头节点移动到链表的尾部，实现链表的旋转操作。
+ *
+ * \param list 指向链表对象的指针。
+ */
+
+/**
+ * \fn void listJoin(list *l, list *o)
+ * \brief 将一个链表连接到另一个链表的尾部。
+ *
+ * 该函数用于将一个链表连接到另一个链表的尾部，合并两个链表。
+ *
+ * \param l 指向目标链表对象的指针。
+ * \param o 指向要连接的源链表对象的指针。
+ */
+
+/**
+ * \fn void listInitNode(listNode *node, void *value)
+ * \brief 初始化链表节点。
+ *
+ * 该函数用于初始化一个链表节点，设置节点存储的值。
+ *
+ * \param node 指向要初始化的节点的指针。
+ * \param value 要存储在节点中的值的指针。
+ */
+
+/**
+ * \fn void listLinkNodeHead(list *list, listNode *node)
+ * \brief 将节点链接到链表头部。
+ *
+ * 该函数用于将指定节点链接到指定链表的头部。
+ *
+ * \param list 指向链表对象的指针。
+ * \param node 指向要链接的节点的指针。
+ */
+
+/**
+ * \fn void listLinkNodeTail(list *list, listNode *node)
+ * \brief 将节点链接到链表尾部。
+ *
+ * 该函数用于将指定节点链接到指定链表的尾部。
+ *
+ * \param list 指向链表对象的指针。
+ * \param node 指向要链接的节点的指针。
+ */
+
+/**
+ * \fn void listUnlinkNode(list *list, listNode *node)
+ * \brief 从链表中解除节点的链接。
+ *
+ * 该函数用于从指定链表中解除指定节点的链接，但不释放节点占用的内存。
+ *
+ * \param list 指向链表对象的指针。
+ * \param node 指向要解除链接的节点的指针。
+ */

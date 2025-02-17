@@ -1,0 +1,69 @@
+/**
+ * \struct geoPoint
+ * \brief 定义地理点的数据结构。
+ *
+ * 该结构体用于表示地球上的一个地理点，包含了该点的经纬度、距离、分数以及成员名称等信息。
+ */
+
+/**
+ * \var double geoPoint::longitude
+ * \brief 地理点的经度。
+ *
+ * 表示地理点在地球上的经度值，以度为单位。
+ */
+
+/**
+ * \var double geoPoint::latitude
+ * \brief 地理点的纬度。
+ *
+ * 表示地理点在地球上的纬度值，以度为单位。
+ */
+
+/**
+ * \var double geoPoint::dist
+ * \brief 地理点的距离。
+ *
+ * 表示该地理点与某个参考点之间的距离，具体含义取决于使用场景。
+ */
+
+/**
+ * \var double geoPoint::score
+ * \brief 地理点的分数。
+ *
+ * 表示该地理点的一个评分值，具体含义取决于使用场景。
+ */
+
+/**
+ * \var char *geoPoint::member
+ * \brief 地理点的成员名称。
+ *
+ * 指向一个字符串，用于标识该地理点所属的成员名称。
+ */
+
+/**
+ * \struct geoArray
+ * \brief 定义地理点数组的数据结构。
+ *
+ * 该结构体用于存储一组地理点，包含了指向地理点数组的指针、数组的容量和已使用的元素数量。
+ */
+
+/**
+ * \var struct geoPoint *geoArray::array
+ * \brief 指向地理点数组的指针。
+ *
+ * 该成员指向一个存储地理点的数组，每个元素是一个 `geoPoint` 结构体。
+ */
+
+/**
+ * \var size_t geoArray::buckets
+ * \brief 数组的容量。
+ *
+ * 表示数组总共可以容纳的 `geoPoint` 结构体的数量。
+ */
+
+/**
+ * \var size_t geoArray::used
+ * \brief 数组中已使用的元素数量。
+ *
+ * 记录当前数组中实际存储的 `geoPoint` 结构体的数量。
+ */
