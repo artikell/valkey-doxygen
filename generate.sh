@@ -12,7 +12,7 @@ git submodule update --init --recursive
 git clone --depth 1 https://github.com/valkey-io/valkey.git .project
 
 cp Doxyfile .project
-cp -rf postscript .project
+cp -rf postscript/* .project/
 
 cd .project
 export NUM_PROC_THREADS=$(nproc)
