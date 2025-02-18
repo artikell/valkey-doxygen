@@ -1,0 +1,153 @@
+/**
+ * \fn int anetTcpNonBlockConnect(char *err, const char *addr, int port)
+ * \brief 建立非阻塞的 TCP 连接
+ * 
+ * \param err 错误信息缓冲区（长度至少 ANET_ERR_LEN）
+ * \param addr 目标服务器地址（IP 或域名）
+ * \param port 目标服务器端口
+ * \return 成功返回套接字描述符，失败返回 ANET_ERR
+ */
+
+/**
+ * \fn int anetTcpNonBlockBestEffortBindConnect(char *err, const char *addr, int port, const char *source_addr)
+ * \brief 绑定指定源地址并建立非阻塞 TCP 连接
+ * 
+ * \param source_addr 要绑定的本地源地址
+ * \其他参数参见 anetTcpNonBlockConnect
+ */
+
+/**
+ * \fn int anetResolve(char *err, char *host, char *ipbuf, size_t ipbuf_len, int flags)
+ * \brief 解析主机名到 IP 地址
+ * 
+ * \param host 要解析的主机名
+ * \param ipbuf 存储解析结果的缓冲区
+ * \param ipbuf_len 缓冲区长度
+ * \param flags 解析标志（ANET_IP_ONLY|ANET_PREFER_IPV4|ANET_PREFER_IPV6）
+ * \return 成功返回 ANET_OK，失败返回 ANET_ERR
+ */
+
+/**
+ * \fn int anetTcpServer(char *err, int port, char *bindaddr, int backlog)
+ * \brief 创建 IPv4 TCP 服务器
+ * 
+ * \param port 监听端口（0 表示随机端口）
+ * \param bindaddr 绑定地址（NULL 表示 INADDR_ANY）
+ * \param backlog 连接队列长度
+ * \return 成功返回监听套接字，失败返回 ANET_ERR
+ */
+
+/**
+ * \fn int anetUnixServer(char *err, char *path, mode_t perm, int backlog, char *group)
+ * \brief 创建 Unix 域套接字服务器
+ * 
+ * \param path 套接字文件路径
+ * \param perm 文件权限模式
+ * \param group 所属用户组（NULL 表示保持默认）
+ * \return 成功返回监听套接字，失败返回 ANET_ERR
+ */
+
+/**
+ * \fn int anetTcpAccept(char *err, int serversock, char *ip, size_t ip_len, int *port)
+ * \brief 接受 TCP 连接
+ * 
+ * \param ip 存储客户端 IP 的缓冲区
+ * \param ip_len 缓冲区长度
+ * \param port 存储客户端端口的指针
+ * \return 成功返回客户端套接字，失败返回 ANET_ERR
+ */
+
+/**
+ * \fn int anetNonBlock(char *err, int fd)
+ * \brief 设置套接字为非阻塞模式
+ * \param fd 要设置的套接字描述符
+ * \return 成功返回 ANET_OK，失败返回 ANET_ERR
+ */
+
+/**
+ * \fn int anetEnableTcpNoDelay(char *err, int fd)
+ * \brief 启用 TCP_NODELAY（禁用 Nagle 算法）
+ * \return 成功返回 ANET_OK，失败返回 ANET_ERR
+ */
+
+/**
+ * \fn int anetKeepAlive(char *err, int fd, int interval)
+ * \brief 设置 TCP keepalive 参数
+ * \param interval 保活探测间隔（秒）
+ * \return 成功返回 ANET_OK，失败返回 ANET_ERR
+ */
+
+/**
+ * \fn int anetSetSockMarkId(char *err, int fd, uint32_t id)
+ * \brief 设置套接字的标记 ID（用于流量控制）
+ * \param id 要设置的标记 ID
+ * \return 成功返回 ANET_OK，失败返回 ANET_ERR
+ */
+
+/**
+ * \fn int anetTcp6Server(char *err, int port, char *bindaddr, int backlog)
+ * \brief 创建 IPv6 TCP 服务器
+ * 
+ * \param port 监听端口（0 表示随机端口）
+ * \param bindaddr 绑定地址（NULL 表示 in6addr_any）
+ * \return 成功返回监听套接字，失败返回 ANET_ERR
+ */
+
+/**
+ * \fn int anetBlock(char *err, int fd)
+ * \brief 设置套接字为阻塞模式
+ * \param fd 要设置的套接字描述符
+ * \return 成功返回 ANET_OK，失败返回 ANET_ERR
+ */
+
+/**
+ * \fn int anetIsBlock(char *err, int fd)
+ * \brief 检测套接字是否为阻塞模式
+ * \return 阻塞返回 1，非阻塞返回 0，错误返回 ANET_ERR
+ */
+
+/**
+ * \fn int anetCloexec(int fd)
+ * \brief 设置文件描述符的 close-on-exec 标志
+ * \return 成功返回 0，失败返回 -1
+ */
+
+/**
+ * \fn int anetDisableTcpNoDelay(char *err, int fd)
+ * \brief 禁用 TCP_NODELAY（启用 Nagle 算法）
+ * \return 成功返回 ANET_OK，失败返回 ANET_ERR
+ */
+
+/**
+ * \fn int anetSendTimeout(char *err, int fd, long long ms)
+ * \brief 设置发送超时时间
+ * \param ms 超时毫秒数（0 表示无限）
+ * \return 成功返回 ANET_OK，失败返回 ANET_ERR
+ */
+
+/**
+ * \fn int anetFdToString(int fd, char *ip, size_t ip_len, int *port, int remote)
+ * \brief 将套接字描述符转换为地址字符串
+ * \param remote 0 表示获取本地地址，1 表示获取对端地址
+ * \return 成功返回 ANET_OK，失败返回 ANET_ERR
+ */
+
+/**
+ * \fn int anetPipe(int fds[2], int read_flags, int write_flags)
+ * \brief 创建带有特性的管道
+ * \param read_flags 读端套接字标志（如 O_NONBLOCK）
+ * \param write_flags 写端套接字标志
+ * \return 成功返回 0，失败返回 -1
+ */
+
+/**
+ * \fn int anetGetError(int fd)
+ * \brief 获取套接字的错误状态
+ * \return 有错误返回 1，无错误返回 0
+ */
+
+/**
+ * \fn int anetIsFifo(char *filepath)
+ * \brief 检测文件路径是否为 FIFO 管道
+ * \return 是 FIFO 返回 1，否则返回 0
+ */

@@ -1,0 +1,49 @@
+/**
+ * \fn void initIOThreads(void)
+ * \brief 初始化 I/O 线程池
+ * 
+ * 创建并启动配置数量的 I/O 线程，初始化任务队列和同步机制
+ */
+
+/**
+ * \fn int trySendReadToIOThreads(client *c)
+ * \brief 尝试将读操作分发到 I/O 线程
+ * \param c 客户端连接对象
+ * \return 成功分发返回 1，否则返回 0
+ */
+
+/**
+ * \fn int trySendWriteToIOThreads(client *c)
+ * \brief 尝试将写操作分发到 I/O 线程
+ * \param c 客户端连接对象
+ * \return 成功入队返回 1，队列已满返回 0
+ */
+
+/**
+ * \fn void adjustIOThreadsByEventLoad(int numevents, int increase_only)
+ * \brief 根据事件负载动态调整 I/O 线程数
+ * \param numevents 当前事件数量
+ * \param increase_only 是否仅允许增加线程数 (1=只增不减，0=允许调整)
+ */
+
+/**
+ * \fn int tryOffloadFreeArgvToIOThreads(client *c, int argc, robj **argv)
+ * \brief 尝试异步释放客户端命令参数
+ * \param argc 参数数量
+ * \param argv 参数对象数组
+ * \return 成功卸载返回 1，否则返回 0
+ */
+
+/**
+ * \fn void drainIOThreadsQueue(void)
+ * \brief 排空所有 I/O 线程的任务队列
+ * 
+ * 等待所有未完成任务执行完毕，主要用于优雅关闭前同步
+ */
+
+/**
+ * \fn int trySendAcceptToIOThreads(connection *conn)
+ * \brief 尝试将新连接接受处理分发到 I/O 线程
+ * \param conn 新建立的连接对象
+ * \return 成功分发返回 1，否则返回 0
+ */
